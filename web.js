@@ -6,14 +6,21 @@ app.get('/', function(request, response) {
   response.send('main page');
 });
 
-
 var testJson = {
-	"server":"yesgoody-mos", 
+	"service":"yesgoody-mos", 
 	"version":"alpha",
 	"utc":Date.now()};
-app.get('/api', function(req, res){
-	testJson.req = req.query;
-	res.json(testJson);
+	
+app.post('/api', function(req, res){
+	req.on("data", function(d){
+		//console.log(d.toString());
+		testJson.params = req.params;
+		testJson.headers = req.headers;
+		testJson.query = req.query;
+		testJson.path = req.path;
+		testJson.data = JSON.parse(d);
+		res.json(testJson);
+	});
 });
 
 var port = process.env.PORT || 5000;
