@@ -16,10 +16,14 @@ payload = {
         "merchantID": 1,
         "price": 15.32,
         "customerID": -1, #-1 means guest
-        "details": {
-            "pizza" : 2,
-            "coke"  : 1,
-        },
+        "details": [
+            {
+                "item" : "pizza", "num" : 2,
+            },
+            {
+                "item" : "coke", "num" : 1,
+            },
+        ],
     },
 }
 client_key = u"1234567890"
@@ -33,5 +37,8 @@ headeroauth = OAuth1(client_key, client_secret,
 #pprint.pprint(json.dumps(payload))
 headers = {'content-type': 'application/json'}
 r = requests.post(url, data=json.dumps(payload), auth=headeroauth)
+pprint.pprint(r.json)
+
+r = requests.get("http://localhost:5000/list")
 
 pprint.pprint(r.json)
